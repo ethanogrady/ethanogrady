@@ -2,6 +2,10 @@
   "name": "ethanogrady",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x",
+    "npm": "10.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +13,8 @@
     "lint": "eslint",
     "images": "node scripts/optimize-images.mjs",
     "preview": "next build && wrangler pages dev out",
-    "deploy": "next build && wrangler pages deploy out"
+    "deploy": "next build && wrangler pages deploy out",
+    "verify": "npm ci --dry-run"
   },
   "dependencies": {
     "lenis": "^1.3.26",
