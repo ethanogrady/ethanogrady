@@ -29,6 +29,7 @@ export function Work() {
                   className={styles.asset}
                   sizes={COVER_SIZES}
                   preload={index < 3}
+                  loading="eager"
                 />
               </Link>
             </li>

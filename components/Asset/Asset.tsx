@@ -7,6 +7,7 @@ type AssetProps = {
   alt?: string;
   sizes: string;
   preload?: boolean;
+  loading?: "eager" | "lazy";
   className?: string;
 };
 
@@ -15,6 +16,7 @@ export function Asset({
   alt = "",
   sizes,
   preload = false,
+  loading,
   className,
 }: AssetProps) {
   return (
@@ -27,6 +29,7 @@ export function Asset({
         alt={alt}
         sizes={sizes}
         preload={preload}
+        loading={loading}
         draggable={false}
       />
     </span>

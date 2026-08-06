@@ -1,4 +1,4 @@
-const VARIANT_WIDTHS = [256, 384, 640, 1200, 2048];
+const VARIANT_WIDTHS = [256, 384, 640, 900, 1200, 2048];
 
 export default function projectImageLoader({
   src,

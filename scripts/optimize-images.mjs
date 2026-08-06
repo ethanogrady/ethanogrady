@@ -4,7 +4,7 @@ import sharp from "sharp";
 
 const SOURCE_DIR = "assets/projects";
 const OUTPUT_DIR = "public/projects";
-const WIDTHS = [256, 384, 640, 1200, 2048];
+const WIDTHS = [256, 384, 640, 900, 1200, 2048];
 const QUALITY = 72;
 const CONCURRENCY = 6;
 
