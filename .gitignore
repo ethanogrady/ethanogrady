@@ -36,6 +36,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# cloudflare
+.wrangler
+
+# image originals (source of truth for scripts/optimize-images.mjs)
+/assets
+/reference
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -1,0 +1,108 @@
+.scrollContainer {
+  position: fixed;
+  inset: 0;
+}
+
+.contentContainer {
+  padding: calc(var(--header-height) + var(--gutter)) var(--gutter)
+    var(--gutter);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .contentContainer {
+    animation: fade-in 0.4s linear 0.2s both;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+@media only screen and (min-width: 768px) {
+  .list {
+    font-size: 18px;
+    line-height: 1.11;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .list {
+    font-size: 24px;
+    line-height: 1.08;
+  }
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--gutter);
+  align-items: baseline;
+  padding: 0.24em 0;
+}
+
+.title {
+  justify-self: flex-start;
+}
+
+.year {
+  font-variant-numeric: tabular-nums;
+}
+
+.preview {
+  position: absolute;
+  top: 50%;
+  left: var(--preview-x, 50%);
+  z-index: 1;
+  display: none;
+  width: auto;
+  height: 7em;
+  pointer-events: none;
+  opacity: 0;
+  translate: -50% -50%;
+  user-select: none;
+}
+
+@media only screen and (min-width: 1280px) {
+  .preview {
+    height: 10em;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .title,
+  .year,
+  .preview {
+    transition: opacity 0.2s linear;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .preview {
+    display: block;
+  }
+
+  .row:hover .title,
+  .row:hover .year {
+    opacity: 0.4;
+  }
+
+  .row:hover .preview {
+    opacity: 1;
+  }
+}

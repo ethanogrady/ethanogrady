@@ -1,0 +1,44 @@
+.arrow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  width: 56px;
+  color: var(--white);
+  mix-blend-mode: difference;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+}
+
+@media only screen and (min-width: 768px) {
+  .arrow {
+    width: 80px;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .arrow {
+    width: 104px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .arrow {
+    transition: opacity 0.15s linear;
+  }
+}
+
+.arrow[data-is-visible="true"] {
+  opacity: 1;
+}
+
+.icon {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.arrow[data-direction="previous"] .icon {
+  transform: scaleX(-1);
+}

@@ -1,0 +1,45 @@
+.track {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  width: 9px;
+  cursor: pointer;
+  mix-blend-mode: difference;
+}
+
+.track[data-is-scrollable="false"] {
+  display: none;
+}
+
+.thumb {
+  display: grid;
+  width: 3px;
+  margin: 3px auto;
+  background: var(--white);
+  border-radius: 1.5px;
+  opacity: 0;
+  touch-action: none;
+  cursor: grab;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .thumb {
+    transition: opacity 0.1s linear;
+  }
+}
+
+.thumb:active {
+  cursor: grabbing;
+}
+
+.thumb::before {
+  grid-area: 1 / 1;
+  margin: -3px;
+  content: "";
+}
+
+.track[data-is-visible="true"] .thumb {
+  opacity: 1;
+}

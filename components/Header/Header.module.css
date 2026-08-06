@@ -1,0 +1,71 @@
+.container {
+  --mask-padding: 5px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--header-height);
+  padding: 0 var(--gutter);
+  pointer-events: none;
+}
+
+.navContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navLinks {
+  display: flex;
+  gap: var(--gutter);
+}
+
+.link {
+  --outline-offset: calc(
+    var(--mask-padding) * -1 + var(--outline-offset-default)
+  );
+  position: relative;
+  display: flex;
+  height: fit-content;
+  padding: var(--mask-padding);
+  margin: calc(var(--mask-padding) * -1);
+  overflow: clip;
+  font-size: calc(var(--nav-font) * 1px);
+  line-height: var(--display-leading);
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: all;
+}
+
+@supports not (overflow: clip) {
+  .link {
+    overflow: hidden;
+  }
+}
+
+.linkText {
+  display: inline-flex;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(calc(100% + var(--mask-padding) + 2px));
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .linkText {
+    animation: rise 0.5s var(--ease-out) 0.1s both;
+  }
+
+  .navLinks .linkText {
+    animation-delay: 0.2s;
+  }
+}

@@ -1,0 +1,67 @@
+.scrollContainer {
+  position: fixed;
+  inset: 0;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gutter);
+  padding: calc(var(--header-height) + var(--gutter)) var(--gutter)
+    var(--gutter);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .contentContainer {
+    animation: fade-in 0.4s linear 0.2s both;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.projectsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gutter);
+}
+
+@media only screen and (min-width: 768px) {
+  .projectsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 100px
+      calc(
+        (100vw - var(--gutter) * (var(--root-columns) + 1)) /
+          var(--root-columns) * 1.5 + var(--gutter) * 0.5
+      );
+    padding-bottom: 100px;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .projectsContainer {
+    gap: 200px
+      calc(
+        (100vw - var(--gutter) * (var(--root-columns) + 1)) /
+          var(--root-columns) * 2.5 + var(--gutter) * 1.5
+      );
+    padding-bottom: 200px;
+  }
+}
+
+.assetContainer {
+  display: block;
+  height: fit-content;
+}
+
+.asset {
+  background: rgb(0 0 0 / 10%);
+}
