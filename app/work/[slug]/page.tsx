@@ -15,7 +15,7 @@ export async function generateMetadata({
 }: PageProps<"/work/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((entry) => entry.slug === slug);
-  return { title: project ? `${project.title} — Ethan O’Grady` : "Not found" };
+  return { title: project ? `${project.title} - Ethan O’Grady` : "Not found" };
 }
 
 export default async function ProjectPage({

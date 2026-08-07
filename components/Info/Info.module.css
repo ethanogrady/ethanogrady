@@ -1,0 +1,169 @@
+.scrollContainer {
+  position: fixed;
+  inset: 0;
+}
+
+.contentContainer {
+  display: grid;
+  grid-template-columns: repeat(var(--root-columns), 1fr);
+  gap: var(--gutter);
+  padding: calc(var(--header-height) + var(--gutter) * 4) var(--gutter)
+    var(--gutter);
+}
+
+@media only screen and (min-width: 768px) {
+  .contentContainer {
+    padding-top: calc(var(--header-height) + 22svh);
+    padding-bottom: 18svh;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .contentContainer {
+    animation: fade-in 0.5s linear 0.15s both;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.statement {
+  grid-column: 1 / -1;
+  max-width: 24ch;
+  font-size: 26px;
+  line-height: 1.28;
+  text-wrap: balance;
+}
+
+@media only screen and (min-width: 768px) {
+  .statement {
+    grid-column: 6 / -2;
+    max-width: 30ch;
+    font-size: 40px;
+    line-height: 1.22;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .statement {
+    grid-column: 7 / -3;
+    font-size: 56px;
+  }
+}
+
+.plate {
+  grid-column: 1 / -1;
+  margin-top: calc(var(--gutter) * 6);
+}
+
+@media only screen and (min-width: 768px) {
+  .plate {
+    grid-column: 2 / 10;
+    margin-top: 20svh;
+  }
+}
+
+.notes {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 / -1;
+  gap: 1.1em;
+  max-width: 60ch;
+  margin-top: calc(var(--gutter) * 3);
+  font-size: 15px;
+  line-height: 1.62;
+}
+
+@media only screen and (min-width: 768px) {
+  .notes {
+    grid-column: 12 / -2;
+    align-self: end;
+    margin-top: 20svh;
+    font-size: 16px;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .notes {
+    grid-column: 12 / -4;
+    font-size: 18px;
+  }
+}
+
+.colophon {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: 1fr;
+  gap: calc(var(--gutter) * 4) var(--gutter);
+  margin-top: calc(var(--gutter) * 8);
+}
+
+@media only screen and (min-width: 768px) {
+  .colophon {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 24svh;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .colophon {
+    grid-template-columns: 1fr 1fr 1.6fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+@media only screen and (min-width: 1280px) {
+  .field {
+    font-size: 16px;
+  }
+}
+
+.fieldLabel {
+  font-style: italic;
+  opacity: 0.45;
+}
+
+.fieldList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.clients {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25em var(--gutter);
+  max-width: 48ch;
+}
+
+.contactLink {
+  width: fit-content;
+  border-bottom: 1px solid currentcolor;
+  padding-bottom: 0.1em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .contactLink {
+    transition: opacity 0.2s linear;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contactLink:hover {
+    opacity: 0.4;
+  }
+}
