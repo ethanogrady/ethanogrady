@@ -39,11 +39,32 @@ Sanity triggers a Cloudflare rebuild once the webhook below is connected.
 
 3. **Connect publish to deploy.** Create a Cloudflare Pages deploy hook
    (Pages project → Settings → Builds & deployments → Deploy hooks), then add
-   it in Sanity as a webhook
-   (`https://www.sanity.io/manage/project/pfn0vjso/api/webhooks`) firing on
-   create, update, and delete for the `project` and `siteSettings` types.
+   it in Sanity at
+   `https://www.sanity.io/manage/project/pfn0vjso/api/webhooks`:
 
-   Without this, edits will not appear until the next push or manual deploy.
+   | Field | Value |
+   | --- | --- |
+   | URL | the Cloudflare deploy hook URL |
+   | Dataset | `production` |
+   | Trigger on | Create, Update, Delete |
+   | Filter | `_type in ["project", "siteSettings"] && !(_id in path("drafts.**"))` |
+   | Projection | `{_type}` |
+   | HTTP method | POST |
+   | Drafts | leave disabled |
+
+   The filter is what stops every image upload and every autosaved keystroke
+   from starting a build. Uploading an image creates a `sanity.imageAsset`
+   document, and the dataset holds 279 of those against 20 content documents,
+   so without the `_type` clause almost every build would be triggered by an
+   upload. The `drafts` clause means builds fire on Publish only, which
+   matches the site: it reads with `perspective: "published"`, so a draft
+   change has nothing to rebuild.
+
+   Without this webhook, edits will not appear until the next push or manual
+   deploy.
+
+   Note that neither Sanity nor Cloudflare debounces. Publishing several
+   projects in a row queues one build each.
 
 ## Local development
 
