@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header/Header";
 import { WorkList } from "@/components/WorkList/WorkList";
+import { getProjects, getSettings } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "List - Ethan O’Grady",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { wordmark } = await getSettings();
+  return { title: `List - ${wordmark}` };
+}
 
-export default function ListPage() {
+export default async function ListPage() {
+  const projects = await getProjects();
+
   return (
     <>
       <Header />
-      <WorkList />
+      <WorkList projects={projects} />
     </>
   );
 }

@@ -4,7 +4,7 @@ import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { flushSync } from "react-dom";
 import { Asset } from "@/components/Asset/Asset";
 import { useMountEffect } from "@/hooks/useMountEffect";
-import type { Project } from "@/lib/projects";
+import type { Project } from "@/lib/content";
 import { ArrowCursor } from "./ArrowCursor";
 import styles from "./ProjectCarousel.module.css";
 

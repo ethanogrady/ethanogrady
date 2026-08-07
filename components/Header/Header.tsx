@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { getSettings } from "@/lib/content";
 import styles from "./Header.module.css";
 
-const wordmark = "Ethan O’Grady";
+export async function Header() {
+  const { wordmark } = await getSettings();
 
-export function Header() {
   return (
     <header className={styles.container}>
       <nav className={styles.navContainer}>

@@ -39,6 +39,10 @@ yarn-error.log*
 # cloudflare
 .wrangler
 
+# sanity
+.sanity
+.sanity-build
+
 # image originals (source of truth for scripts/optimize-images.mjs)
 /assets
 /reference

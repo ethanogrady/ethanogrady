@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Newsreader } from "next/font/google";
+import { getSettings } from "@/lib/content";
 import "./globals.css";
 
 const display = Newsreader({
@@ -8,21 +9,24 @@ const display = Newsreader({
   display: "swap",
 });
 
-const description =
-  "Photographer working across interiors, fashion, and editorial. New York.";
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSettings();
+  const { wordmark } = settings;
+  const description = settings.description ?? undefined;
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://ethanogrady.com"),
-  title: "Ethan O'Grady",
-  description,
-  openGraph: {
-    type: "website",
-    siteName: "Ethan O'Grady",
-    title: "Ethan O'Grady",
+  return {
+    metadataBase: new URL("https://ethanogrady.com"),
+    title: wordmark,
     description,
-  },
-  twitter: { card: "summary_large_image" },
-};
+    openGraph: {
+      type: "website",
+      siteName: wordmark,
+      title: wordmark,
+      description,
+    },
+    twitter: { card: "summary_large_image" },
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",

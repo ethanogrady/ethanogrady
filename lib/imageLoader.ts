@@ -1,14 +1,16 @@
-const VARIANT_WIDTHS = [256, 384, 640, 900, 1200, 2048];
-
-export default function projectImageLoader({
+export default function sanityImageLoader({
   src,
   width,
+  quality,
 }: {
   src: string;
   width: number;
+  quality?: number;
 }) {
-  const variant =
-    VARIANT_WIDTHS.find((candidate) => candidate >= width) ??
-    VARIANT_WIDTHS[VARIANT_WIDTHS.length - 1];
-  return `${src}-${variant}.webp`;
+  const url = new URL(src);
+  url.searchParams.set("w", String(width));
+  url.searchParams.set("q", String(quality ?? 72));
+  url.searchParams.set("fit", "max");
+  url.searchParams.set("auto", "format");
+  return url.toString();
 }

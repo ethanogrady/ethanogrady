@@ -2,13 +2,13 @@ import Link from "next/link";
 import { Asset } from "@/components/Asset/Asset";
 import { ProjectCursor } from "@/components/ProjectCursor/ProjectCursor";
 import { ScrollContainer } from "@/components/ScrollContainer/ScrollContainer";
-import { projects } from "@/lib/projects";
+import type { Project } from "@/lib/content";
 import styles from "./Work.module.css";
 
 const COVER_SIZES =
   "(min-width: 1280px) 26vw, (min-width: 768px) 29vw, calc(100vw - 16px)";
 
-export function Work() {
+export function Work({ projects }: { projects: Project[] }) {
   return (
     <>
       <ScrollContainer

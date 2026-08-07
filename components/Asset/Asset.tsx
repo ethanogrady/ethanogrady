@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Asset as AssetType } from "@/lib/projects";
+import type { Asset as AssetType } from "@/lib/content";
 import styles from "./Asset.module.css";
 
 type AssetProps = {
