@@ -22,21 +22,20 @@ export function WorkList({ projects }: { projects: Project[] }) {
               <span className={styles.title} data-list-title>
                 {project.title}
               </span>
-              <span className={styles.previewSlot} aria-hidden="true">
-                <Image
-                  className={styles.preview}
-                  src={project.cover.src}
-                  width={project.cover.width}
-                  height={project.cover.height}
-                  alt=""
-                  sizes="400px"
-                  draggable={false}
-                  data-list-preview
-                />
-              </span>
               <span className={styles.year} data-list-year>
                 {project.year}
               </span>
+              <Image
+                className={styles.preview}
+                src={project.cover.src}
+                width={project.cover.width}
+                height={project.cover.height}
+                alt=""
+                sizes="400px"
+                draggable={false}
+                aria-hidden="true"
+                data-list-preview
+              />
             </Link>
           </li>
         ))}
