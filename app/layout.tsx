@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo } from "next/font/google";
+import { Newsreader } from "next/font/google";
 import "./globals.css";
 
-const archivo = Archivo({
+const display = Newsreader({
   variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
@@ -31,7 +31,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={archivo.variable}>
+    <html lang="en" className={display.variable}>
       <body>
         <div className="root">{children}</div>
       </body>

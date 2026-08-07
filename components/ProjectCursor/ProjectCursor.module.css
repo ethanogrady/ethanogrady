@@ -5,9 +5,8 @@
   z-index: 6;
   font-size: 12px;
   line-height: 1.125;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--tracking-text);
   color: var(--white);
-  text-transform: uppercase;
   white-space: nowrap;
   mix-blend-mode: difference;
   pointer-events: none;

@@ -8,7 +8,7 @@
 
 .viewport {
   --peek: 8vw;
-  --chrome-height: 76px;
+  --chrome-height: 86px;
   --slide-height: min(
     calc(100svh - var(--chrome-height) - var(--gutter) * 2),
     calc(84vw / var(--max-ratio))
@@ -23,7 +23,7 @@
 
 @media only screen and (min-width: 768px) {
   .viewport {
-    --chrome-height: 82px;
+    --chrome-height: 88px;
     --slide-height: min(
       calc(100svh - var(--chrome-height) - var(--gutter) * 2),
       calc(82vw / var(--max-ratio))
@@ -33,7 +33,7 @@
 
 @media only screen and (min-width: 1280px) {
   .viewport {
-    --chrome-height: 96px;
+    --chrome-height: 105px;
   }
 }
 
@@ -150,8 +150,7 @@
   padding: var(--gutter);
   font-size: calc(var(--nav-font) * 1px);
   line-height: var(--display-leading);
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
+  letter-spacing: var(--tracking-text);
 }
 
 @media only screen and (min-width: 768px) {
@@ -167,7 +166,6 @@
   padding: 0;
   font: inherit;
   color: inherit;
-  text-transform: inherit;
   letter-spacing: inherit;
   cursor: pointer;
   background: none;

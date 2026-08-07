@@ -34,10 +34,14 @@
   overflow: clip;
   font-size: calc(var(--nav-font) * 1px);
   line-height: var(--display-leading);
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
+  letter-spacing: var(--tracking-text);
   white-space: nowrap;
   pointer-events: all;
+}
+
+.wordmark {
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 
 @supports not (overflow: clip) {
