@@ -5,10 +5,10 @@ import { flushSync } from "react-dom";
 import { Asset } from "@/components/Asset/Asset";
 import { useMountEffect } from "@/hooks/useMountEffect";
 import type { Project } from "@/lib/content";
-import { ArrowCursor } from "./ArrowCursor";
 import styles from "./ProjectCarousel.module.css";
 
 const SLIDE_SIZES = "(min-width: 768px) 82vw, 84vw";
+const PREFETCH_RADIUS = 3;
 const THUMB_SIZES = "(min-width: 1280px) 13vw, (min-width: 768px) 18vw, 30vw";
 
 function measureTrack(slides: Project["assets"]) {
@@ -94,7 +94,6 @@ export function ProjectCarousel({ project }: { project: Project }) {
       <div
         className={styles.viewport}
         style={{ "--max-ratio": String(maxRatio) } as CSSProperties}
-        data-carousel-viewport=""
         onClick={handleClick}
       >
         <ol
@@ -110,20 +109,31 @@ export function ProjectCarousel({ project }: { project: Project }) {
             } as CSSProperties
           }
         >
-          {slides.map((slide, slideIndex) => (
-            <li
-              key={`${slide.src}-${slideIndex}`}
-              className={styles.slide}
-              style={{ "--ratio": String(ratios[slideIndex]) } as CSSProperties}
-            >
-              <Asset
-                asset={slide}
-                alt={project.title}
-                sizes={SLIDE_SIZES}
-                preload={slideIndex < 3}
-              />
-            </li>
-          ))}
+          {slides.map((slide, slideIndex) => {
+            const isVisibleOnLoad = slideIndex < 3;
+            const isNearActive =
+              Math.abs(slideIndex - position) <= PREFETCH_RADIUS;
+
+            return (
+              <li
+                key={`${slide.src}-${slideIndex}`}
+                className={styles.slide}
+                style={
+                  { "--ratio": String(ratios[slideIndex]) } as CSSProperties
+                }
+              >
+                <Asset
+                  asset={slide}
+                  alt={project.title}
+                  sizes={SLIDE_SIZES}
+                  preload={isVisibleOnLoad}
+                  loading={
+                    isVisibleOnLoad || isNearActive ? "eager" : "lazy"
+                  }
+                />
+              </li>
+            );
+          })}
         </ol>
       </div>
 
@@ -160,8 +170,6 @@ export function ProjectCarousel({ project }: { project: Project }) {
           {pad(activeIndex + 1)} / {pad(total)}
         </span>
       </footer>
-
-      <ArrowCursor />
     </main>
   );
 }

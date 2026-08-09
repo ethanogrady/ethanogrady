@@ -37,12 +37,6 @@
   }
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .viewport {
-    cursor: none;
-  }
-}
-
 .track {
   --slide-gap: max(
     var(--gutter),

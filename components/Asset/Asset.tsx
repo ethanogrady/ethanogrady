@@ -30,6 +30,8 @@ export function Asset({
         sizes={sizes}
         preload={preload}
         loading={loading}
+        placeholder={asset.lqip ? "blur" : "empty"}
+        blurDataURL={asset.lqip ?? undefined}
         draggable={false}
       />
     </span>

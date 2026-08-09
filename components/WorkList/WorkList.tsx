@@ -32,6 +32,8 @@ export function WorkList({ projects }: { projects: Project[] }) {
                 height={project.cover.height}
                 alt=""
                 sizes="400px"
+                placeholder={project.cover.lqip ? "blur" : "empty"}
+                blurDataURL={project.cover.lqip ?? undefined}
                 draggable={false}
                 aria-hidden="true"
                 data-list-preview

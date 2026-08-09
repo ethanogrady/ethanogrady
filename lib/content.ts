@@ -5,6 +5,7 @@ export type Asset = {
   src: string;
   width: number;
   height: number;
+  lqip: string | null;
 };
 
 export type Project = {
@@ -34,7 +35,8 @@ export type SiteSettings = {
 const ASSET_FIELDS = `
   "src": url,
   "width": metadata.dimensions.width,
-  "height": metadata.dimensions.height
+  "height": metadata.dimensions.height,
+  "lqip": metadata.lqip
 `;
 
 const PROJECT_FIELDS = `
