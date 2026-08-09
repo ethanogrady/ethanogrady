@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
-import { flushSync } from "react-dom";
 import { Asset } from "@/components/Asset/Asset";
 import { useMountEffect } from "@/hooks/useMountEffect";
 import type { Project } from "@/lib/content";
@@ -14,12 +13,13 @@ const THUMB_SIZES = "(min-width: 1280px) 13vw, (min-width: 768px) 18vw, 30vw";
 function measureTrack(slides: Project["assets"]) {
   const ratios = slides.map((slide) => slide.width / slide.height);
   let running = 0;
-  const centers = ratios.map((ratio) => {
-    const center = running + ratio / 2;
+  const offsets = ratios.map((ratio) => {
+    const offset = running;
     running += ratio;
-    return center;
+    return offset;
   });
-  return { ratios, centers, maxRatio: Math.max(...ratios) };
+  const centers = offsets.map((offset, index) => offset + ratios[index] / 2);
+  return { ratios, offsets, centers, maxRatio: Math.max(...ratios) };
 }
 
 function pad(value: number) {
@@ -30,17 +30,16 @@ export function ProjectCarousel({ project }: { project: Project }) {
   const { assets } = project;
   const total = assets.length;
   const slides = [assets[total - 1], ...assets, assets[0]];
-  const { ratios, centers, maxRatio } = measureTrack(slides);
+  const { ratios, offsets, centers, maxRatio } = measureTrack(slides);
 
   const containerRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLOListElement>(null);
   const [position, setPosition] = useState(1);
   const [isIndexOpen, setIsIndexOpen] = useState(false);
 
-  const activeIndex = (position - 1 + total) % total;
+  const activeIndex = position - 1;
 
   const go = (delta: number) =>
-    setPosition((current) => Math.min(total + 1, Math.max(0, current + delta)));
+    setPosition((current) => ((current - 1 + delta + total) % total) + 1);
 
   const openSlide = (index: number) => {
     setPosition(index + 1);
@@ -49,19 +48,7 @@ export function ProjectCarousel({ project }: { project: Project }) {
 
   useMountEffect(() => {
     const container = containerRef.current;
-    const track = trackRef.current;
-    if (!container || !track) return;
-
-    const handleTransitionEnd = (event: TransitionEvent) => {
-      if (event.target !== track || event.propertyName !== "transform") return;
-      const current = Number(track.dataset.position);
-      if (current !== 0 && current !== total + 1) return;
-
-      track.dataset.isSnapping = "true";
-      flushSync(() => setPosition(current === 0 ? total : 1));
-      void track.offsetHeight;
-      track.dataset.isSnapping = "false";
-    };
+    if (!container) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -73,13 +60,8 @@ export function ProjectCarousel({ project }: { project: Project }) {
       if (event.key === "ArrowRight") go(1);
     };
 
-    track.addEventListener("transitionend", handleTransitionEnd);
     window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      track.removeEventListener("transitionend", handleTransitionEnd);
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   });
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) =>
@@ -97,10 +79,7 @@ export function ProjectCarousel({ project }: { project: Project }) {
         onClick={handleClick}
       >
         <ol
-          ref={trackRef}
           className={styles.track}
-          data-position={position}
-          data-is-snapping="false"
           style={
             {
               "--active-ratio": String(ratios[position]),
@@ -119,7 +98,11 @@ export function ProjectCarousel({ project }: { project: Project }) {
                 key={`${slide.src}-${slideIndex}`}
                 className={styles.slide}
                 style={
-                  { "--ratio": String(ratios[slideIndex]) } as CSSProperties
+                  {
+                    "--ratio": String(ratios[slideIndex]),
+                    "--offset": String(offsets[slideIndex]),
+                    "--index": String(slideIndex),
+                  } as CSSProperties
                 }
               >
                 <Asset

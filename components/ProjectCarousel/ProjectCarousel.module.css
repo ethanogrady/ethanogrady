@@ -42,9 +42,8 @@
     var(--gutter),
     calc(50vw - var(--slide-height) * var(--active-ratio) / 2 - var(--peek))
   );
-  display: flex;
-  align-items: center;
-  gap: var(--slide-gap);
+  position: relative;
+  height: var(--slide-height);
   transform: translate3d(
     calc(
       50vw - var(--slide-height) * var(--center-multiplier) - var(--slide-gap) *
@@ -53,27 +52,23 @@
     0,
     0
   );
-  will-change: transform;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .track {
-    transition:
-      transform 0.75s var(--ease-in-out),
-      gap 0.75s var(--ease-in-out);
-  }
-}
-
-.track[data-is-snapping="true"] {
-  transition: none;
 }
 
 .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
-  flex: none;
   width: calc(var(--slide-height) * var(--ratio));
   height: var(--slide-height);
   background: rgb(0 0 0 / 10%);
+  transform: translate3d(
+    calc(
+      var(--slide-height) * var(--offset) + var(--slide-gap) * var(--index)
+    ),
+    0,
+    0
+  );
 }
 
 .index {
