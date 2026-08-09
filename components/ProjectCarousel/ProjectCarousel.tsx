@@ -19,7 +19,7 @@ function measureTrack(slides: Project["assets"]) {
     return offset;
   });
   const centers = offsets.map((offset, index) => offset + ratios[index] / 2);
-  return { ratios, offsets, centers, maxRatio: Math.max(...ratios) };
+  return { ratios, offsets, centers };
 }
 
 function pad(value: number) {
@@ -30,7 +30,7 @@ export function ProjectCarousel({ project }: { project: Project }) {
   const { assets } = project;
   const total = assets.length;
   const slides = [assets[total - 1], ...assets, assets[0]];
-  const { ratios, offsets, centers, maxRatio } = measureTrack(slides);
+  const { ratios, offsets, centers } = measureTrack(slides);
 
   const containerRef = useRef<HTMLElement>(null);
   const [position, setPosition] = useState(1);
@@ -75,14 +75,13 @@ export function ProjectCarousel({ project }: { project: Project }) {
     >
       <div
         className={styles.viewport}
-        style={{ "--max-ratio": String(maxRatio) } as CSSProperties}
+        style={{ "--active-ratio": String(ratios[position]) } as CSSProperties}
         onClick={handleClick}
       >
         <ol
           className={styles.track}
           style={
             {
-              "--active-ratio": String(ratios[position]),
               "--center-multiplier": String(centers[position]),
               "--gap-count": String(position),
             } as CSSProperties

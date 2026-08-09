@@ -11,7 +11,7 @@
   --chrome-height: 86px;
   --slide-height: min(
     calc(100svh - var(--chrome-height) - var(--gutter) * 2),
-    calc(84vw / var(--max-ratio))
+    calc(84vw / var(--active-ratio))
   );
   position: relative;
   display: flex;
@@ -26,7 +26,7 @@
     --chrome-height: 88px;
     --slide-height: min(
       calc(100svh - var(--chrome-height) - var(--gutter) * 2),
-      calc(82vw / var(--max-ratio))
+      calc(82vw / var(--active-ratio))
     );
   }
 }
