@@ -1,20 +1,11 @@
 import { Asset } from "@/components/Asset/Asset";
 import { ScrollContainer } from "@/components/ScrollContainer/ScrollContainer";
-import type { Project, SiteSettings } from "@/lib/content";
+import type { SiteSettings } from "@/lib/content";
 import styles from "./Info.module.css";
 
 const PORTRAIT_SIZES = "(min-width: 768px) 42vw, calc(100vw - 16px)";
 
-type InfoProps = {
-  settings: SiteSettings;
-  projects: Project[];
-};
-
-export function Info({ settings, projects }: InfoProps) {
-  const clients = Array.from(
-    new Set(projects.map((project) => project.title.split(/ [–@] /)[0].trim())),
-  ).sort();
-
+export function Info({ settings }: { settings: SiteSettings }) {
   return (
     <ScrollContainer
       className={styles.scrollContainer}
@@ -77,11 +68,11 @@ export function Info({ settings, projects }: InfoProps) {
           </div>
         ) : null}
 
-        {clients.length > 0 ? (
+        {settings.clients.length > 0 ? (
           <div className={styles.field}>
             <span className={styles.fieldLabel}>Selected clients</span>
             <p className={styles.clients}>
-              {clients.map((client) => (
+              {settings.clients.map((client) => (
                 <span key={client}>{client}</span>
               ))}
             </p>

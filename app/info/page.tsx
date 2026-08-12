@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header/Header";
 import { Info } from "@/components/Info/Info";
-import { getProjects, getSettings } from "@/lib/content";
+import { getSettings } from "@/lib/content";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { wordmark } = await getSettings();
@@ -9,15 +9,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function InfoPage() {
-  const [settings, projects] = await Promise.all([
-    getSettings(),
-    getProjects(),
-  ]);
+  const settings = await getSettings();
 
   return (
     <>
       <Header />
-      <Info settings={settings} projects={projects} />
+      <Info settings={settings} />
     </>
   );
 }

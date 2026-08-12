@@ -28,6 +28,7 @@ export type SiteSettings = {
   notes: string[];
   portrait: Asset | null;
   basedIn: string[];
+  clients: string[];
   email: string | null;
   socials: Social[];
 };
@@ -56,6 +57,7 @@ const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   "notes": coalesce(notes, []),
   "portrait": portrait.asset->{ ${ASSET_FIELDS} },
   "basedIn": coalesce(basedIn, []),
+  "clients": coalesce(clients, []),
   email,
   "socials": coalesce(socials[]{ label, url }, [])
 }`;
@@ -67,6 +69,7 @@ const FALLBACK_SETTINGS: SiteSettings = {
   notes: [],
   portrait: null,
   basedIn: [],
+  clients: [],
   email: null,
   socials: [],
 };
