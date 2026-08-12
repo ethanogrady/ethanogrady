@@ -227,6 +227,20 @@
         "title": "Based in"
       },
       {
+        "options": {
+          "layout": "tags"
+        },
+        "description": "Drag to reorder.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "clients",
+        "type": "array",
+        "title": "Selected clients"
+      },
+      {
         "name": "email",
         "type": "string"
       },

@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-08-07T20:42:34.162Z",
+  "createdAt": "2026-08-12T14:40:55.321Z",
   "studioVersion": "6.9.1",
   "version": 3,
   "workspaces": [
@@ -13,7 +13,7 @@
       },
       "name": "ethanogrady",
       "projectId": "pfn0vjso",
-      "schema": "979535d6.create-schema.json",
+      "schema": "4112ae04.create-schema.json",
       "title": "Ethan O'Grady",
       "tools": "911440ef.create-tools.json"
     }

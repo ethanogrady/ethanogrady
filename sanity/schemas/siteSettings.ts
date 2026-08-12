@@ -47,10 +47,10 @@ export const siteSettings = defineType({
     defineField({
       name: "clients",
       title: "Selected clients",
-      description: "Drag to reorder.",
+      description: "Drag to reorder. This is the order shown on the info page.",
       type: "array",
       of: [defineArrayMember({ type: "string" })],
-      options: { layout: "tags" },
+      options: { sortable: true },
     }),
     defineField({
       name: "email",
