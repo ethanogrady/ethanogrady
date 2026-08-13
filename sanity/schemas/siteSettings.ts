@@ -37,6 +37,15 @@ export const siteSettings = defineType({
       title: "Portrait",
       type: "image",
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          description:
+            "Describe the image for search engines and screen readers. Optional.",
+          type: "string",
+        }),
+      ],
     }),
     defineField({
       name: "basedIn",

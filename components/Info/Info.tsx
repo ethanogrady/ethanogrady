@@ -17,7 +17,12 @@ export function Info({ settings }: { settings: SiteSettings }) {
 
       {settings.portrait ? (
         <div className={styles.plate}>
-          <Asset asset={settings.portrait} sizes={PORTRAIT_SIZES} preload />
+          <Asset
+            asset={settings.portrait}
+            alt={settings.portrait.alt ?? `${settings.wordmark}, portrait`}
+            sizes={PORTRAIT_SIZES}
+            preload
+          />
         </div>
       ) : null}
 

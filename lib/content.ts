@@ -6,12 +6,14 @@ export type Asset = {
   width: number;
   height: number;
   lqip: string | null;
+  alt: string | null;
 };
 
 export type Project = {
   slug: string;
   title: string;
   year: number | null;
+  updatedAt: string;
   cover: Asset;
   assets: Asset[];
 };
@@ -44,8 +46,9 @@ const PROJECT_FIELDS = `
   "slug": slug.current,
   title,
   year,
-  "cover": cover.asset->{ ${ASSET_FIELDS} },
-  "assets": images[defined(asset)].asset->{ ${ASSET_FIELDS} }
+  "updatedAt": _updatedAt,
+  "cover": { "alt": cover.alt, ...cover.asset->{ ${ASSET_FIELDS} } },
+  "assets": images[defined(asset)]{ "alt": alt, ...asset->{ ${ASSET_FIELDS} } }
 `;
 
 const PROJECTS_QUERY = `*[_type == "project" && defined(slug.current) && defined(cover.asset)] | order(orderRank) { ${PROJECT_FIELDS} }`;
@@ -55,7 +58,7 @@ const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   description,
   statement,
   "notes": coalesce(notes, []),
-  "portrait": portrait.asset->{ ${ASSET_FIELDS} },
+  "portrait": { "alt": portrait.alt, ...portrait.asset->{ ${ASSET_FIELDS} } },
   "basedIn": coalesce(basedIn, []),
   "clients": coalesce(clients, []),
   email,
@@ -89,4 +92,11 @@ export const getProject = cache(
 export const getSettings = cache(async (): Promise<SiteSettings> => {
   const settings = await client.fetch<SiteSettings | null>(SETTINGS_QUERY);
   return settings ?? FALLBACK_SETTINGS;
+});
+
+export const getSettingsUpdatedAt = cache(async (): Promise<string> => {
+  const updatedAt = await client.fetch<string | null>(
+    `*[_type == "siteSettings"][0]._updatedAt`,
+  );
+  return updatedAt ?? new Date().toISOString();
 });

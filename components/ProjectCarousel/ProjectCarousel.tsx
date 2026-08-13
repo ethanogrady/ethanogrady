@@ -106,12 +106,13 @@ export function ProjectCarousel({ project }: { project: Project }) {
               >
                 <Asset
                   asset={slide}
-                  alt={project.title}
+                  alt={
+                    slide.alt ??
+                    `${project.title}, photograph ${((slideIndex - 1 + total) % total) + 1} of ${total}`
+                  }
                   sizes={SLIDE_SIZES}
                   preload={isVisibleOnLoad}
-                  loading={
-                    isVisibleOnLoad || isNearActive ? "eager" : "lazy"
-                  }
+                  loading={isVisibleOnLoad || isNearActive ? "eager" : "lazy"}
                 />
               </li>
             );
@@ -130,7 +131,14 @@ export function ProjectCarousel({ project }: { project: Project }) {
                   onClick={() => openSlide(assetIndex)}
                   aria-label={`Go to image ${assetIndex + 1} of ${total}`}
                 >
-                  <Asset asset={asset} sizes={THUMB_SIZES} />
+                  <Asset
+                    asset={asset}
+                    alt={
+                      asset.alt ??
+                      `${project.title}, photograph ${assetIndex + 1}`
+                    }
+                    sizes={THUMB_SIZES}
+                  />
                 </button>
               </li>
             ))}

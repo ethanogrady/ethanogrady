@@ -24,7 +24,8 @@
     "verify": "npm ci --dry-run",
     "studio": "sanity dev",
     "studio:deploy": "sanity deploy",
-    "migrate": "node --env-file=.env.local scripts/migrate-to-sanity.mjs"
+    "migrate": "node --env-file=.env.local scripts/migrate-to-sanity.mjs",
+    "brand": "node scripts/generate-brand-images.mjs"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",

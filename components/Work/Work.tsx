@@ -21,11 +21,11 @@ export function Work({ projects }: { projects: Project[] }) {
               <Link
                 className={styles.assetContainer}
                 href={`/work/${project.slug}`}
-                aria-label={`View project: ${project.title}`}
                 data-project-title={project.title}
               >
                 <Asset
                   asset={project.cover}
+                  alt={project.cover.alt ?? project.title}
                   className={styles.asset}
                   sizes={COVER_SIZES}
                   preload={index < 3}

@@ -32,6 +32,15 @@ export const project = defineType({
       description: "Shown on the grid and when hovering the list.",
       type: "image",
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          description:
+            "Describe the image for search engines and screen readers. Optional.",
+          type: "string",
+        }),
+      ],
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -39,7 +48,21 @@ export const project = defineType({
       title: "Images",
       description: "Drag to reorder. This is the order shown in the project.",
       type: "array",
-      of: [{ type: "image", options: { hotspot: true } }],
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alt text",
+              description:
+                "Describe the image for search engines and screen readers. Optional.",
+              type: "string",
+            }),
+          ],
+        },
+      ],
       options: { layout: "grid" },
       components: { input: BatchImageInput },
       validation: (rule) => rule.min(1),
@@ -49,7 +72,11 @@ export const project = defineType({
   preview: {
     select: { title: "title", subtitle: "year", media: "cover" },
     prepare({ title, subtitle, media }) {
-      return { title, subtitle: subtitle ? String(subtitle) : undefined, media };
+      return {
+        title,
+        subtitle: subtitle ? String(subtitle) : undefined,
+        media,
+      };
     },
   },
 });
