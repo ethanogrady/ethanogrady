@@ -57,14 +57,22 @@ export function ProjectCursor() {
 
     const handlePointerLeave = () => update(null);
 
-    const handleScroll = () =>
-      update(document.elementFromPoint(pointerX, pointerY));
+    let scrollFrame = 0;
+
+    const handleScroll = () => {
+      if (title === "" || scrollFrame) return;
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = 0;
+        update(document.elementFromPoint(pointerX, pointerY));
+      });
+    };
 
     document.addEventListener("pointermove", handlePointerMove);
     document.addEventListener("pointerleave", handlePointerLeave);
     document.addEventListener("scroll", handleScroll, true);
 
     return () => {
+      cancelAnimationFrame(scrollFrame);
       document.removeEventListener("pointermove", handlePointerMove);
       document.removeEventListener("pointerleave", handlePointerLeave);
       document.removeEventListener("scroll", handleScroll, true);

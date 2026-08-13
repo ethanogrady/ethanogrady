@@ -47,26 +47,32 @@ export function ScrollContainer({
     let hideTimeout = 0;
     let drag: { pointerY: number; scroll: number } | null = null;
 
+    let geometry = { thumbHeight: 0, travel: 0, overflow: 1 };
+
     const measure = () => {
       const usableTrack = track.clientHeight - THUMB_INSET * 2;
-      const overflow = content.scrollHeight - wrapper.clientHeight;
+      const viewport = wrapper.clientHeight;
+      const contentHeight = content.scrollHeight;
+      const overflow = contentHeight - viewport;
       const thumbHeight = Math.max(
         MIN_THUMB_HEIGHT,
-        usableTrack * Math.min(1, wrapper.clientHeight / content.scrollHeight),
+        usableTrack * Math.min(1, viewport / contentHeight),
       );
-      return {
+
+      geometry = {
         thumbHeight,
         travel: Math.max(0, usableTrack - thumbHeight),
         overflow: Math.max(1, overflow),
-        isScrollable: overflow > 1,
       };
+
+      track.dataset.isScrollable = String(overflow > 1);
+      thumb.style.height = `${thumbHeight}px`;
     };
 
     const render = () => {
-      const { thumbHeight, travel, overflow, isScrollable } = measure();
-      track.dataset.isScrollable = String(isScrollable);
-      thumb.style.height = `${thumbHeight}px`;
-      thumb.style.transform = `translateY(${(lenis.scroll / overflow) * travel}px)`;
+      thumb.style.transform = `translateY(${
+        (lenis.scroll / geometry.overflow) * geometry.travel
+      }px)`;
     };
 
     const reveal = () => {
@@ -93,7 +99,7 @@ export function ScrollContainer({
 
     const handleThumbPointerMove = (event: PointerEvent) => {
       if (!drag) return;
-      const { travel, overflow } = measure();
+      const { travel, overflow } = geometry;
       if (travel === 0) return;
       const delta = ((event.clientY - drag.pointerY) / travel) * overflow;
       lenis.scrollTo(drag.scroll + delta, { immediate: true });
@@ -108,7 +114,7 @@ export function ScrollContainer({
 
     const handleTrackPointerDown = (event: PointerEvent) => {
       if (event.target === thumb) return;
-      const { thumbHeight, travel, overflow } = measure();
+      const { thumbHeight, travel, overflow } = geometry;
       if (travel === 0) return;
       const offset =
         event.clientY -
@@ -120,6 +126,7 @@ export function ScrollContainer({
 
     const handleResize = () => {
       lenis.resize();
+      measure();
       render();
     };
 
@@ -140,6 +147,7 @@ export function ScrollContainer({
       animationFrame = requestAnimationFrame(raf);
     };
     animationFrame = requestAnimationFrame(raf);
+    measure();
     render();
 
     return () => {
