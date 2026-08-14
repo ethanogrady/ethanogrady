@@ -6,10 +6,8 @@ import { getProjects, getSettings } from "@/lib/content";
 import { personSchema, websiteSchema } from "@/lib/schema";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { wordmark } = await getSettings();
-
   return {
-    title: { absolute: `${wordmark}, Photographer` },
+    title: { absolute: "E T H A N  O G R A D Y" },
     alternates: { canonical: "/" },
   };
 }
