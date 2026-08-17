@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import Lenis from "lenis";
 import { useMountEffect } from "@/hooks/useMountEffect";
 import styles from "./ScrollContainer.module.css";
 
@@ -32,21 +31,9 @@ export function ScrollContainer({
     const thumb = thumbRef.current;
     if (!wrapper || !content || !track || !thumb) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    const lenis = new Lenis({
-      wrapper,
-      content,
-      lerp: prefersReducedMotion ? 1 : 0.1,
-      smoothWheel: !prefersReducedMotion,
-    });
-
     let animationFrame = 0;
     let hideTimeout = 0;
     let drag: { pointerY: number; scroll: number } | null = null;
-
     let geometry = { thumbHeight: 0, travel: 0, overflow: 1 };
 
     const measure = () => {
@@ -71,7 +58,7 @@ export function ScrollContainer({
 
     const render = () => {
       thumb.style.transform = `translateY(${
-        (lenis.scroll / geometry.overflow) * geometry.travel
+        (wrapper.scrollTop / geometry.overflow) * geometry.travel
       }px)`;
     };
 
@@ -84,15 +71,19 @@ export function ScrollContainer({
     };
 
     const handleScroll = () => {
-      render();
-      reveal();
+      if (animationFrame) return;
+      animationFrame = requestAnimationFrame(() => {
+        animationFrame = 0;
+        render();
+        reveal();
+      });
     };
 
     const handleThumbPointerDown = (event: PointerEvent) => {
       event.preventDefault();
       event.stopPropagation();
       thumb.setPointerCapture(event.pointerId);
-      drag = { pointerY: event.clientY, scroll: lenis.scroll };
+      drag = { pointerY: event.clientY, scroll: wrapper.scrollTop };
       track.dataset.isVisible = "true";
       window.clearTimeout(hideTimeout);
     };
@@ -102,7 +93,7 @@ export function ScrollContainer({
       const { travel, overflow } = geometry;
       if (travel === 0) return;
       const delta = ((event.clientY - drag.pointerY) / travel) * overflow;
-      lenis.scrollTo(drag.scroll + delta, { immediate: true });
+      wrapper.scrollTop = drag.scroll + delta;
     };
 
     const handleThumbPointerUp = (event: PointerEvent) => {
@@ -121,11 +112,13 @@ export function ScrollContainer({
         track.getBoundingClientRect().top -
         THUMB_INSET -
         thumbHeight / 2;
-      lenis.scrollTo(Math.min(1, Math.max(0, offset / travel)) * overflow);
+      wrapper.scrollTo({
+        top: Math.min(1, Math.max(0, offset / travel)) * overflow,
+        behavior: "smooth",
+      });
     };
 
     const handleResize = () => {
-      lenis.resize();
       measure();
       render();
     };
@@ -134,7 +127,7 @@ export function ScrollContainer({
     resizeObserver.observe(content);
     resizeObserver.observe(wrapper);
 
-    lenis.on("scroll", handleScroll);
+    wrapper.addEventListener("scroll", handleScroll, { passive: true });
     thumb.addEventListener("pointerdown", handleThumbPointerDown);
     thumb.addEventListener("pointermove", handleThumbPointerMove);
     thumb.addEventListener("pointerup", handleThumbPointerUp);
@@ -142,11 +135,6 @@ export function ScrollContainer({
     track.addEventListener("pointerdown", handleTrackPointerDown);
     track.addEventListener("pointerenter", reveal);
 
-    const raf = (time: number) => {
-      lenis.raf(time);
-      animationFrame = requestAnimationFrame(raf);
-    };
-    animationFrame = requestAnimationFrame(raf);
     measure();
     render();
 
@@ -154,13 +142,13 @@ export function ScrollContainer({
       cancelAnimationFrame(animationFrame);
       window.clearTimeout(hideTimeout);
       resizeObserver.disconnect();
+      wrapper.removeEventListener("scroll", handleScroll);
       thumb.removeEventListener("pointerdown", handleThumbPointerDown);
       thumb.removeEventListener("pointermove", handleThumbPointerMove);
       thumb.removeEventListener("pointerup", handleThumbPointerUp);
       thumb.removeEventListener("pointercancel", handleThumbPointerUp);
       track.removeEventListener("pointerdown", handleTrackPointerDown);
       track.removeEventListener("pointerenter", reveal);
-      lenis.destroy();
     };
   });
 
@@ -168,7 +156,7 @@ export function ScrollContainer({
     <>
       <main
         ref={wrapperRef}
-        className={["lenis", className].filter(Boolean).join(" ")}
+        className={[styles.scroller, className].filter(Boolean).join(" ")}
       >
         <div ref={contentRef} className={contentClassName}>
           {children}

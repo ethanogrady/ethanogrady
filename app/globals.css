@@ -122,18 +122,6 @@ video {
     max-width: 100%;
 }
 
-.lenis {
-    overflow: auto;
-    overscroll-behavior: auto none;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-}
-
-.lenis::-webkit-scrollbar {
-    display: none;
-    width: 0 !important;
-    height: 0 !important;
-}
 .visuallyHidden {
     position: absolute;
     width: 1px;
